@@ -1,5 +1,6 @@
 import { Icons } from "../ui/Icons";
 import type { savedForms } from "../../../types";
+import { Link } from "react-router";
 
 export const Dashboard = () => {
   const savedForms: savedForms[] = [];
@@ -13,10 +14,12 @@ export const Dashboard = () => {
             <h1 className="text-3xl font-bold text-gray-900">My Forms</h1>
             <p className="text-gray-500 mt-1">Manage and create your forms</p>
           </div>
-          <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium">
-            <Icons.Plus className="w-5 h-5 mr-2" />
-            Create New Form
-          </button>
+          <Link to="/editor">
+            <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium">
+              <Icons.Plus className="w-5 h-5 mr-2" />
+              Create New Form
+            </button>
+          </Link>
         </div>
 
         {/* Form Grid */}
@@ -28,7 +31,7 @@ export const Dashboard = () => {
             <h3 className="text-lg font-medium text-gray-900 mb-2">No forms created yet</h3>
             <p className="text-gray-500 mb-6">Start building your first form to see it here.</p>
             <button className="text-blue-600 font-medium hover:text-blue-800">
-              Create a form &rarr;
+              <Link to="/editor">Create a form &rarr;</Link>
             </button>
           </div>
         ) : (
