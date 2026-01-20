@@ -5,3 +5,14 @@ export interface savedForms {
   fields: any[];
   lastModified: Date;
 }
+
+export type FieldType =
+  | "text"
+  | "email"
+  | "number"
+  | "password"
+  | "textarea"
+  | "select"
+  | "checkbox"
+  | "radio"
+  | "date";
