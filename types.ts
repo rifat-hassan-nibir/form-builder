@@ -1,11 +1,3 @@
-export interface savedForms {
-  id: string;
-  title: string;
-  description: string;
-  fields: any[];
-  lastModified: Date;
-}
-
 export type FieldType =
   | "text"
   | "email"
@@ -21,6 +13,7 @@ export interface FieldOption {
   label: string;
   value: string;
 }
+
 export interface FormField {
   id: string;
   type: FieldType;
@@ -36,11 +29,31 @@ export interface FormSchema {
   title: string;
   description: string;
   fields: FormField[];
-  lastModified: number;
+  updatedAt: number;
   createdAt: number;
 }
 
+// Action Interfaces
+export type FormAction =
+  | { type: "CREATE_NEW_FORM" }
+  | { type: "UPDATE_FORM_META"; payload: { title?: string; description?: string } }
+  | { type: "LOAD_FORM"; payload: string } // form id
+  | { type: "SAVE_FORM" }
+  | { type: "DELETE_FORM"; payload: string } // form id
+  | { type: "CLEAR_FORM" }
+  | { type: "ADD_FIELD"; payload: FieldType }
+  | { type: "UPDATE_FIELD"; payload: { fieldId: string; updates: Partial<FormField> } }
+  | { type: "DELETE_FIELD"; payload: string } // field id
+  | { type: "REORDER_FIELDS"; payload: { fromIndex: number; toIndex: number } }
+  | { type: "SELECT_FIELD"; payload: string | null } // field id or null
+  | { type: "DUPLICATE_FIELD"; payload: string } // field id
+  | { type: "SET_ACTIVE_TAB"; payload: "builder" | "preview" | "code" }
+  | { type: "TOGGLE_PROPERTIES_PANEL" };
+
+// State Interface
 export interface FormState {
-  activeForm: FormSchema;
+  activeForm: FormSchema | null;
+  selectedFieldId: string | null;
   savedForms: FormSchema[];
+  activeTab: "builder" | "preview" | "code";
 }

@@ -1,9 +1,15 @@
 import { Icons } from "../ui/Icons";
-import type { savedForms } from "../../../types";
 import { Link } from "react-router";
+import { useContext } from "react";
+import { FormBuilderContext } from "../../context/FormBuilderContext";
 
 export const Dashboard = () => {
-  const savedForms: savedForms[] = [];
+  const { state, dispatch } = useContext(FormBuilderContext);
+  const savedForms = [];
+
+  const createNewForm = () => {
+    dispatch({ type: "CREATE_NEW_FORM" });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -15,7 +21,10 @@ export const Dashboard = () => {
             <p className="text-gray-500 mt-1">Manage and create your forms</p>
           </div>
           <Link to="/editor">
-            <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium">
+            <button
+              onClick={createNewForm}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
+            >
               <Icons.Plus className="w-5 h-5 mr-2" />
               Create New Form
             </button>
