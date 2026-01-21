@@ -1,3 +1,4 @@
+import { generateRandomId } from "./src/utils/generateRandomId";
 import type { FieldType } from "./types";
 
 export const FIELD_TYPES: { type: FieldType; label: string; icon: string }[] = [
@@ -11,3 +12,18 @@ export const FIELD_TYPES: { type: FieldType; label: string; icon: string }[] = [
   { type: "radio", label: "Radio Group", icon: "CircleDot" },
   { type: "date", label: "Date Picker", icon: "Calendar" },
 ];
+
+export const createNewForm = () => ({
+  id: generateRandomId(),
+  title: "Untitled Form",
+  description: "",
+  fields: [],
+  selectedFieldId: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+});
+
+export const INITIAL_STATE = {
+  activeForm: createNewForm(),
+  savedForms: [],
+};
