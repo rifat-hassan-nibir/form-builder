@@ -18,7 +18,7 @@ export default function Canvas() {
   return (
     <div className="flex-1 bg-gray-50 flex flex-col h-full overflow-hidden">
       <div className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 min-h-[500px]">
+        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 min-h-125">
           {/* Form Header */}
           <div className="p-6 border-b border-gray-200 hover:bg-gray-50 transition-colors group">
             <input
