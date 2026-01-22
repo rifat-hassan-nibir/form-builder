@@ -2,13 +2,19 @@ import { Icons } from "../ui/Icons";
 import { Link } from "react-router";
 import { useContext } from "react";
 import { FormBuilderContext } from "../../context/FormBuilderContext";
+import { ActionTypes } from "../../../constants";
 
 export const Dashboard = () => {
   const { state, dispatch } = useContext(FormBuilderContext);
-  const savedForms = [];
+  const savedForms = state.savedForms;
 
   const createNewForm = () => {
-    dispatch({ type: "CREATE_NEW_FORM" });
+    dispatch({ type: ActionTypes.CREATE_NEW_FORM });
+    dispatch({ type: ActionTypes.SAVE_FORM });
+  };
+
+  const deleteForm = (formId: string) => {
+    dispatch({ type: ActionTypes.DELETE_FORM, payload: formId });
   };
 
   return (
@@ -39,7 +45,10 @@ export const Dashboard = () => {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No forms created yet</h3>
             <p className="text-gray-500 mb-6">Start building your first form to see it here.</p>
-            <button className="text-blue-600 font-medium hover:text-blue-800">
+            <button
+              onClick={createNewForm}
+              className="text-blue-600 font-medium hover:text-blue-800"
+            >
               <Link to="/editor">Create a form &rarr;</Link>
             </button>
           </div>
@@ -71,6 +80,7 @@ export const Dashboard = () => {
 
                 <div className="border-t border-gray-100 p-4 bg-gray-50 rounded-b-lg flex justify-end space-x-3">
                   <button
+                    onClick={() => deleteForm(form.id)}
                     className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                     title="Delete"
                   >

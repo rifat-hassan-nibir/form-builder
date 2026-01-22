@@ -17,6 +17,18 @@ export const formReducer = (state: FormState, action: FormAction) => {
         activeForm: createNewForm(),
       };
 
+    case ActionTypes.SAVE_FORM:
+      return {
+        ...state,
+        savedForms: [...state.savedForms, state.activeForm],
+      };
+
+    case ActionTypes.DELETE_FORM:
+      return {
+        ...state,
+        savedForms: state.savedForms.filter((form) => form.id !== action.payload),
+      };
+
     default:
       return state;
   }
