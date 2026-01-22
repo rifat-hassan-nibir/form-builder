@@ -1,16 +1,19 @@
-import { Icons } from "../ui/Icons";
-import { Link } from "react-router";
 import { useContext } from "react";
-import { FormBuilderContext } from "../../context/FormBuilderContext";
+import { Link, useNavigate } from "react-router";
 import { ActionTypes } from "../../../constants";
+import { FormBuilderContext } from "../../context/FormBuilderContext";
+import { Icons } from "../ui/Icons";
 
 export const Dashboard = () => {
   const { state, dispatch } = useContext(FormBuilderContext);
   const savedForms = state.savedForms;
+  const navigate = useNavigate();
 
   const createNewForm = () => {
-    dispatch({ type: ActionTypes.CREATE_NEW_FORM });
-    dispatch({ type: ActionTypes.SAVE_FORM });
+    navigate("/editor");
+    setTimeout(() => {
+      dispatch({ type: ActionTypes.CREATE_NEW_FORM });
+    }, 100);
   };
 
   const deleteForm = (formId: string) => {
@@ -26,15 +29,13 @@ export const Dashboard = () => {
             <h1 className="text-3xl font-bold text-gray-900">My Forms</h1>
             <p className="text-gray-500 mt-1">Manage and create your forms</p>
           </div>
-          <Link to="/editor">
-            <button
-              onClick={createNewForm}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
-            >
-              <Icons.Plus className="w-5 h-5 mr-2" />
-              Create New Form
-            </button>
-          </Link>
+          <button
+            onClick={createNewForm}
+            className="hover:cursor-pointer flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
+          >
+            <Icons.Plus className="w-5 h-5 mr-2" />
+            Create New Form
+          </button>
         </div>
 
         {/* Form Grid */}

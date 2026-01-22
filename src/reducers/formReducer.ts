@@ -11,11 +11,15 @@ export const INITIAL_STATE: FormState = {
 
 export const formReducer = (state: FormState, action: FormAction) => {
   switch (action.type) {
-    case ActionTypes.CREATE_NEW_FORM:
+    case ActionTypes.CREATE_NEW_FORM: {
+      const newForm = createNewForm();
+
       return {
         ...state,
-        activeForm: createNewForm(),
+        activeForm: newForm,
+        savedForms: [...state.savedForms, newForm],
       };
+    }
 
     case ActionTypes.SAVE_FORM:
       return {
