@@ -1,9 +1,14 @@
-import { Link } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { Icons } from "../ui/Icons";
-import Builder from "./builder/Builder";
+import { useContext, useState } from "react";
+import { FormBuilderContext } from "../../context/FormBuilderContext";
 
-export default function Editor() {
-  const activeTab = "builder";
+type Tab = "builder" | "preview" | "code";
+
+export default function EditorLayout() {
+  const { state } = useContext(FormBuilderContext);
+  const [activeTab, setActiveTab] = useState<Tab>("builder");
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -30,7 +35,11 @@ export default function Editor() {
 
         <div className="flex bg-gray-100 p-1 rounded-lg">
           <button
-            className={`flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+            onClick={() => {
+              setActiveTab("builder");
+              navigate(`/editor/builder/${state?.activeForm?.id}`);
+            }}
+            className={`hover:cursor-pointer flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               activeTab === "builder"
                 ? "bg-white text-blue-600 shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
@@ -39,7 +48,11 @@ export default function Editor() {
             <Icons.Settings className="w-4 h-4 mr-2" /> Builder
           </button>
           <button
-            className={`flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+            onClick={() => {
+              setActiveTab("preview");
+              navigate(`/editor/preview/${state?.activeForm?.id}`);
+            }}
+            className={`hover:cursor-pointer flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               activeTab === "preview"
                 ? "bg-white text-blue-600 shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
@@ -48,7 +61,11 @@ export default function Editor() {
             <Icons.Eye className="w-4 h-4 mr-2" /> Preview
           </button>
           <button
-            className={`flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+            onClick={() => {
+              setActiveTab("code");
+              navigate(`/editor/code/${state?.activeForm?.id}`);
+            }}
+            className={`hover:cursor-pointer flex items-center px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               activeTab === "code"
                 ? "bg-white text-blue-600 shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
@@ -65,19 +82,7 @@ export default function Editor() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden flex">
-        {activeTab === "builder" && <Builder />}
-
-        {/* {activeTab === "preview" && (
-          <div className="flex-1 overflow-y-auto bg-gray-50">
-            <FormPreview />
-          </div>
-        )} */}
-
-        {/* {activeTab === "code" && (
-          <div className="flex-1 overflow-y-auto bg-gray-800">
-            <CodeViewer />
-          </div>
-        )} */}
+        <Outlet />
       </main>
     </div>
   );

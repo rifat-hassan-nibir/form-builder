@@ -1,19 +1,18 @@
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { ActionTypes } from "../../../constants";
-import { FormBuilderContext } from "../../context/FormBuilderContext";
+import { useFormContext } from "../../hooks/useFormContext";
+import { createNewForm } from "../../reducers/helpers";
 import { Icons } from "../ui/Icons";
 
 export const Dashboard = () => {
-  const { state, dispatch } = useContext(FormBuilderContext);
+  const { state, dispatch } = useFormContext();
   const savedForms = state.savedForms;
   const navigate = useNavigate();
 
-  const createNewForm = () => {
-    navigate("/editor");
-    setTimeout(() => {
-      dispatch({ type: ActionTypes.CREATE_NEW_FORM });
-    }, 100);
+  const createForm = () => {
+    const newForm = createNewForm();
+    dispatch({ type: ActionTypes.CREATE_NEW_FORM, payload: newForm });
+    navigate(`/editor/builder/${newForm?.id}`);
   };
 
   const deleteForm = (formId: string) => {
@@ -30,7 +29,7 @@ export const Dashboard = () => {
             <p className="text-gray-500 mt-1">Manage and create your forms</p>
           </div>
           <button
-            onClick={createNewForm}
+            onClick={createForm}
             className="hover:cursor-pointer flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
           >
             <Icons.Plus className="w-5 h-5 mr-2" />
