@@ -12,7 +12,7 @@ export const INITIAL_STATE: FormState = {
 export const formReducer = (state: FormState, action: FormAction) => {
   switch (action.type) {
     case ActionTypes.CREATE_NEW_FORM: {
-      const newForm = createNewForm();
+      const newForm = action.payload || createNewForm();
 
       return {
         ...state,
@@ -22,6 +22,7 @@ export const formReducer = (state: FormState, action: FormAction) => {
     }
 
     case ActionTypes.SAVE_FORM:
+      if (!state.activeForm) return state;
       return {
         ...state,
         savedForms: [...state.savedForms, state.activeForm],

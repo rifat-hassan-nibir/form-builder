@@ -35,7 +35,7 @@ export interface FormSchema {
 
 // Action Interfaces
 export type FormAction =
-  | { type: "CREATE_NEW_FORM" }
+  | { type: "CREATE_NEW_FORM"; payload: FormSchema }
   | { type: "UPDATE_FORM_META"; payload: { title?: string; description?: string } }
   | { type: "LOAD_FORM"; payload: string } // form id
   | { type: "SAVE_FORM" }
