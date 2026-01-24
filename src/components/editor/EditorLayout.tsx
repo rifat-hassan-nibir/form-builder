@@ -1,34 +1,45 @@
-import { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate, useParams } from "react-router";
+import { ActionTypes } from "../../../constants";
 import { useFormContext } from "../../hooks/useFormContext";
 import { Icons } from "../ui/Icons";
 
 type Tab = "builder" | "preview" | "code";
 
 export default function EditorLayout() {
-  const { state } = useFormContext();
+  const { state, dispatch } = useFormContext();
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState<Tab>("builder");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id && state.activeForm?.id !== id) {
+      dispatch({ type: ActionTypes.LOAD_FORM, payload: id });
+    }
+  }, [id, state.activeForm?.id, dispatch]);
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 h-16 px-6 flex items-center justify-between z-10">
         <div className="flex items-center space-x-4">
-          <Link to="/">
-            <button
-              className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors hover:cursor-pointer"
-              title="Back to Dashboard"
-            >
-              <Icons.ArrowLeft className="w-5 h-5" />
-            </button>
-          </Link>
+          <button
+            onClick={() => {
+              dispatch({ type: ActionTypes.SAVE_FORM });
+              dispatch({ type: ActionTypes.CLEAR_FORM });
+              navigate("/");
+            }}
+            className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors hover:cursor-pointer"
+            title="Back to Dashboard"
+          >
+            <Icons.ArrowLeft className="w-5 h-5" />
+          </button>
           <div className="flex items-center space-x-3 border-l pl-4 border-gray-200">
             <div className="bg-blue-600 p-1.5 rounded-lg">
               <Icons.Code className="text-white w-4 h-4" />
             </div>
             <span className="text-lg font-semibold text-gray-800 truncate max-w-50">
-              "Untitled Form"
+              {state.activeForm?.title || "Untitled Form"}
             </span>
           </div>
         </div>

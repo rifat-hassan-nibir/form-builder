@@ -21,11 +21,23 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
     }
 
-    case ActionTypes.SAVE_FORM:
+    case ActionTypes.SAVE_FORM: {
       if (!state.activeForm) return state;
+      const exists = state.savedForms.find((f) => f.id === state.activeForm?.id);
+      const updatedSavedForms = exists
+        ? state.savedForms.map((f) => (f.id === state.activeForm?.id ? state.activeForm! : f))
+        : [...state.savedForms, state.activeForm];
+
       return {
         ...state,
-        savedForms: [...state.savedForms, state.activeForm],
+        savedForms: updatedSavedForms,
+      };
+    }
+
+    case ActionTypes.CLEAR_FORM:
+      return {
+        ...state,
+        activeForm: null,
       };
 
     case ActionTypes.DELETE_FORM:
@@ -34,12 +46,24 @@ export const formReducer = (state: FormState, action: FormAction) => {
         savedForms: state.savedForms.filter((form) => form.id !== action.payload),
       };
 
+    case ActionTypes.LOAD_FORM: {
+      const form = state.savedForms.find((f) => f.id === action.payload);
+
+      return {
+        ...state,
+        activeForm: form || null,
+      };
+    }
+
     case ActionTypes.UPDATE_FORM_META:
+      if (!state.activeForm) return state;
+
       return {
         ...state,
         activeForm: {
           ...state.activeForm,
           ...action.payload,
+          updatedAt: Date.now(),
         },
       };
 

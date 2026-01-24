@@ -3,6 +3,7 @@ import { Icons } from "../../ui/Icons";
 
 export default function Canvas() {
   const { state, dispatch } = useFormContext();
+  console.log("state ===>>>", state);
 
   if (!state.activeForm) {
     return (
