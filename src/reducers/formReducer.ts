@@ -34,6 +34,15 @@ export const formReducer = (state: FormState, action: FormAction) => {
         savedForms: state.savedForms.filter((form) => form.id !== action.payload),
       };
 
+    case ActionTypes.UPDATE_FORM_META:
+      return {
+        ...state,
+        activeForm: {
+          ...state.activeForm,
+          ...action.payload,
+        },
+      };
+
     default:
       return state;
   }
