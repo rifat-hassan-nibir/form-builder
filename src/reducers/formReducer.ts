@@ -101,6 +101,18 @@ export const formReducer = (state: FormState, action: FormAction) => {
         },
       };
 
+    // Delete Field
+    case ActionTypes.DELETE_FIELD:
+      if (!state.activeForm) return state;
+
+      return {
+        ...state,
+        activeForm: {
+          ...state.activeForm,
+          fields: state.activeForm.fields.filter((field) => field.id !== action.payload),
+        },
+      };
+
     default:
       return state;
   }

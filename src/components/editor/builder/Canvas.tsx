@@ -26,6 +26,10 @@ export default function Canvas() {
     dispatch({ type: "UPDATE_FORM_META", payload: { description: e.target.value } });
   };
 
+  const handleDeleteField = (fieldId: string) => {
+    dispatch({ type: "DELETE_FIELD", payload: fieldId });
+  };
+
   return (
     <div className="flex-1 bg-gray-50 flex flex-col h-full overflow-hidden">
       <div className="flex-1 overflow-y-auto p-8">
@@ -72,17 +76,13 @@ export default function Canvas() {
                         {field.required && <span className="text-red-500">*</span>}
                       </label>
 
-                      {/* Mock Inputs based on type */}
-
-                      <div>
-                        <input
-                          type="text"
-                          placeholder={field.placeholder}
-                          className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm"
-                          value={field.defaultValue || ""}
-                          readOnly
-                        />
-                      </div>
+                      <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm"
+                        value={field.defaultValue || ""}
+                        readOnly
+                      />
                     </div>
                   </div>
 
@@ -90,6 +90,7 @@ export default function Canvas() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
+                        handleDeleteField(field.id);
                       }}
                       className="p-1 text-red-400 hover:bg-red-50 rounded hover:text-red-600 hover:cursor-pointer"
                     >
