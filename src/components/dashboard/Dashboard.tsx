@@ -15,6 +15,11 @@ export const Dashboard = () => {
     navigate(`/editor/builder/${newForm?.id}`);
   };
 
+  const editForm = (formId: string) => {
+    dispatch({ type: ActionTypes.LOAD_FORM, payload: formId });
+    navigate(`/editor/builder/${formId}`);
+  };
+
   const deleteForm = (formId: string) => {
     dispatch({ type: ActionTypes.DELETE_FORM, payload: formId });
   };
@@ -87,7 +92,7 @@ export const Dashboard = () => {
                     <Icons.Trash className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => navigate(`/editor/builder/${form.id}`)}
+                    onClick={() => editForm(form.id)}
                     className="flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 transition-all hover:cursor-pointer"
                   >
                     <Icons.Edit className="w-4 h-4 mr-2" />
