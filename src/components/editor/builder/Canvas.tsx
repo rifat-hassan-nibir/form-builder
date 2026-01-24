@@ -17,6 +17,7 @@ export default function Canvas() {
   }
 
   const { title, description, fields } = state.activeForm;
+  const { id } = state?.selectedField || {};
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: "UPDATE_FORM_META", payload: { title: e.target.value } });
@@ -57,10 +58,10 @@ export default function Canvas() {
             {fields.length > 0 ? (
               fields.map((field) => (
                 <div
+                  onClick={() => dispatch({ type: "SELECT_FIELD", payload: field })}
                   key={field.id}
                   className={`
-                  relative group border rounded-md p-4 cursor-pointer transition-all
-                  border-gray-200 hover:border-blue-300 bg-white
+                  ${id === field.id ? "border-blue-300 bg-blue-50" : "border-gray-200"} relative group border rounded-md p-4 cursor-pointer transition-all hover:border-blue-300 hover:bg-blue-50 hover:cursor-pointer
                 `}
                 >
                   {/* Drag Handle */}

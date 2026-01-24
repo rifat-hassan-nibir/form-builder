@@ -5,7 +5,7 @@ import { createNewForm } from "./helpers";
 
 export const INITIAL_STATE: FormState = {
   activeForm: null,
-  selectedFieldId: null,
+  selectedField: null,
   savedForms: [],
 };
 
@@ -82,7 +82,6 @@ export const formReducer = (state: FormState, action: FormAction) => {
         label: `New ${action.payload} field`,
         placeholder: `Enter your ${action.payload}`,
         required: false,
-        defaultValue: "",
         options:
           action.payload === "select" || action.payload === "checkbox" || action.payload === "radio"
             ? [
@@ -99,6 +98,7 @@ export const formReducer = (state: FormState, action: FormAction) => {
           ...state.activeForm,
           fields: [...state.activeForm.fields, newField],
         },
+        selectedField: newField,
       };
 
     // Delete Field
@@ -111,6 +111,30 @@ export const formReducer = (state: FormState, action: FormAction) => {
           ...state.activeForm,
           fields: state.activeForm.fields.filter((field) => field.id !== action.payload),
         },
+      };
+
+    // Select field
+    case ActionTypes.SELECT_FIELD:
+      return {
+        ...state,
+        selectedField: action.payload,
+      };
+
+    // Update Field
+    case ActionTypes.UPDATE_FIELD:
+      if (!state.activeForm) return state;
+
+      return {
+        ...state,
+        activeForm: {
+          ...state.activeForm,
+          fields: state.activeForm.fields.map((field) =>
+            field.id === state.selectedField?.id ? { ...field, ...action.payload.updates } : field,
+          ),
+        },
+        selectedField: state.selectedField
+          ? { ...state.selectedField, ...action.payload.updates }
+          : null,
       };
 
     default:

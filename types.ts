@@ -20,7 +20,6 @@ export interface FormField {
   label: string;
   placeholder: string;
   required: boolean;
-  defaultValue?: string;
   options?: FieldOption[]; // For select, checkbox, radio
 }
 
@@ -42,10 +41,10 @@ export type FormAction =
   | { type: "DELETE_FORM"; payload: string } // form id
   | { type: "CLEAR_FORM" }
   | { type: "ADD_FIELD"; payload: FieldType }
-  | { type: "UPDATE_FIELD"; payload: { fieldId: string; updates: Partial<FormField> } }
+  | { type: "UPDATE_FIELD"; payload: { id: string; updates: Partial<FormField> } }
   | { type: "DELETE_FIELD"; payload: string } // field id
   | { type: "REORDER_FIELDS"; payload: { fromIndex: number; toIndex: number } }
-  | { type: "SELECT_FIELD"; payload: string | null } // field id or null
+  | { type: "SELECT_FIELD"; payload: FormField | null } // field object
   | { type: "DUPLICATE_FIELD"; payload: string } // field id
   | { type: "SET_ACTIVE_TAB"; payload: "builder" | "preview" | "code" }
   | { type: "TOGGLE_PROPERTIES_PANEL" };
@@ -53,6 +52,6 @@ export type FormAction =
 // State Interface
 export interface FormState {
   activeForm: FormSchema | null;
-  selectedFieldId: string | null;
+  selectedField: FormField | null;
   savedForms: FormSchema[];
 }
