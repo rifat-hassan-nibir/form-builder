@@ -13,7 +13,7 @@ export default function PropertiesPanel() {
     );
   }
 
-  const handleChange = (key: string, value: string | boolean) => {
+  const handleChange = (key: string, value: string | boolean | object) => {
     dispatch({
       type: "UPDATE_FIELD",
       payload: {
@@ -25,8 +25,30 @@ export default function PropertiesPanel() {
     });
   };
 
+  const showOptions = ["select", "checkbox", "radio"].includes(selectedField.type);
+
+  const handleOptionChange = (index: number, key: "label" | "value", value: string) => {
+    const newOptions = [...(selectedField.options || [])];
+    newOptions[index] = { ...newOptions[index], [key]: value };
+    handleChange("options", newOptions);
+  };
+
+  const addOption = () => {
+    const newOptions = [
+      ...(selectedField.options || []),
+      { label: "New Option", value: "new_option" },
+    ];
+    handleChange("options", newOptions);
+  };
+
+  const removeOption = (index: number) => {
+    const newOptions = [...(selectedField.options || [])];
+    newOptions.splice(index, 1);
+    handleChange("options", newOptions);
+  };
+
   return (
-    <div className="w-80 bg-white border-l border-gray-200 h-full flex flex-col">
+    <div className="w-[400px] bg-white border-l border-gray-200 h-full flex flex-col">
       <div className="p-4 border-b border-gray-200 flex justify-between items-center">
         <h2 className="text-lg font-semibold text-gray-800">Properties</h2>
         <button
@@ -70,16 +92,17 @@ export default function PropertiesPanel() {
         </div>
 
         {/* Placeholder */}
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Placeholder</label>
-          <input
-            type="text"
-            value={selectedField.placeholder}
-            onChange={(e) => handleChange("placeholder", e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-        </div>
+        {!["checkbox", "radio", "date", "select"].includes(selectedField.type) && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Placeholder</label>
+            <input
+              type="text"
+              value={selectedField.placeholder || ""}
+              onChange={(e) => handleChange("placeholder", e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+          </div>
+        )}
 
         {/* Required Toggle */}
         <div className="flex items-center">
@@ -94,6 +117,42 @@ export default function PropertiesPanel() {
             Required Field
           </label>
         </div>
+        {/* Options Editor */}
+        {showOptions && (
+          <div className="border-t pt-4 mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Options</label>
+            <div className="space-y-2">
+              {selectedField.options?.map((opt, idx) => (
+                <div key={idx} className="flex space-x-2">
+                  <input
+                    placeholder="Label"
+                    value={opt.label}
+                    onChange={(e) => handleOptionChange(idx, "label", e.target.value)}
+                    className="flex-1 p-1 text-sm border border-gray-300 rounded"
+                  />
+                  <input
+                    placeholder="Value"
+                    value={opt.value}
+                    onChange={(e) => handleOptionChange(idx, "value", e.target.value)}
+                    className="flex-1 p-1 text-sm border border-gray-300 rounded"
+                  />
+                  <button
+                    onClick={() => removeOption(idx)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Icons.Trash className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={addOption}
+              className="hover:cursor-pointer mt-2 text-sm text-blue-600 hover:text-blue-800 flex items-center"
+            >
+              <Icons.Plus className="w-3 h-3 mr-1" /> Add Option
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="p-4 border-t border-gray-200">
