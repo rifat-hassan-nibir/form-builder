@@ -69,21 +69,48 @@ export default function Canvas() {
                   </div>
 
                   <div className="pl-10">
-                    <div>
-                      {/* Preview of the field in Editor Mode (Simplified) */}
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {field.label}
-                        {field.required && <span className="text-red-500">*</span>}
-                      </label>
+                    {/* Preview of the field in Editor Mode (Simplified) */}
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {field.label} {field.required && <span className="text-red-500">*</span>}
+                    </label>
 
-                      <input
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm"
-                        value={field.defaultValue || ""}
-                        readOnly
-                      />
-                    </div>
+                    {/* Mock Inputs based on type */}
+                    {["text", "email", "number", "password", "date"].includes(field.type) && (
+                      <div className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm">
+                        {field.placeholder || `Enter ${field.label}...`}
+                      </div>
+                    )}
+                    {field.type === "textarea" && (
+                      <div className="h-20 w-full bg-gray-50 border border-gray-200 rounded px-3 py-2 text-gray-400 text-sm">
+                        {field.placeholder || "Text area content..."}
+                      </div>
+                    )}
+                    {field.type === "select" && (
+                      <div className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center justify-between text-gray-400 text-sm">
+                        <span>Dropdown Options</span>
+                        <Icons.GripVertical className="w-4 h-4 rotate-90" />
+                      </div>
+                    )}
+                    {(field.type === "checkbox" || field.type === "radio") && (
+                      <div className="space-y-2">
+                        {field.options && field.options.length > 0 ? (
+                          field.options.map((opt, i) => (
+                            <div key={i} className="flex items-center">
+                              <div
+                                className={`w-4 h-4 border border-gray-300 ${field.type === "radio" ? "rounded-full" : "rounded"}`}
+                              ></div>
+                              <span className="ml-2 text-sm text-gray-600">{opt.label}</span>
+                            </div>
+                          ))
+                        ) : (
+                          // Single checkbox fallback
+                          <div className="flex items-center">
+                            <div className="w-4 h-4 border border-gray-300 rounded"></div>
+                            <span className="ml-2 text-sm text-gray-600">Checkbox Option</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <div className="absolute top-2 right-2 flex space-x-1">
