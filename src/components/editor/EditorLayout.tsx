@@ -9,8 +9,22 @@ type Tab = "builder" | "preview" | "code";
 export default function EditorLayout() {
   const { state, dispatch } = useFormContext();
   const { id } = useParams();
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [activeTab, setActiveTab] = useState<Tab>("builder");
   const navigate = useNavigate();
+
+  const handleSave = () => {
+    setSaveStatus("saving");
+    dispatch({ type: ActionTypes.SAVE_FORM });
+
+    // Simulate micro-feedback
+    setTimeout(() => {
+      setSaveStatus("saved");
+      setTimeout(() => {
+        setSaveStatus("idle");
+      }, 2000);
+    }, 600);
+  };
 
   useEffect(() => {
     if (id && state.activeForm?.id !== id) {
@@ -25,7 +39,6 @@ export default function EditorLayout() {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => {
-              dispatch({ type: ActionTypes.SAVE_FORM });
               dispatch({ type: ActionTypes.CLEAR_FORM });
               navigate("/");
             }}
@@ -86,9 +99,40 @@ export default function EditorLayout() {
           </button>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <button className="text-sm text-red-500 hover:text-red-700 px-3 hover:cursor-pointer">
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => dispatch({ type: ActionTypes.CLEAR_FORM })}
+            className="text-sm text-gray-500 hover:text-red-500 px-3 hover:cursor-pointer transition-colors"
+          >
             Clear Form
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={saveStatus !== "idle"}
+            className={`flex items-center px-4 py-2 text-white text-sm font-medium rounded-lg transition-all shadow-sm hover:cursor-pointer min-w-32 justify-center ${
+              saveStatus === "saved"
+                ? "bg-green-600 hover:bg-green-700"
+                : "bg-blue-600 hover:bg-blue-700"
+            } ${saveStatus === "saving" ? "opacity-80" : ""}`}
+          >
+            {saveStatus === "idle" && (
+              <>
+                <Icons.Save className="w-4 h-4 mr-2" />
+                Save Form
+              </>
+            )}
+            {saveStatus === "saving" && (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                Saving...
+              </>
+            )}
+            {saveStatus === "saved" && (
+              <>
+                <Icons.Check className="w-4 h-4 mr-2" />
+                Saved!
+              </>
+            )}
           </button>
         </div>
       </header>

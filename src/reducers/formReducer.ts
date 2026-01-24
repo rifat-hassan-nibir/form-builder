@@ -17,7 +17,6 @@ export const formReducer = (state: FormState, action: FormAction) => {
       return {
         ...state,
         activeForm: newForm,
-        savedForms: [...state.savedForms, newForm],
       };
     }
 
