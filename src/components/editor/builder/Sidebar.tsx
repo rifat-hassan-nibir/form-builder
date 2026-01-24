@@ -1,6 +1,14 @@
-import { FIELD_TYPES } from "../../../../constants";
+import { ActionTypes, FIELD_TYPES } from "../../../../constants";
+import type { FieldType } from "../../../../types";
+import { useFormContext } from "../../../hooks/useFormContext";
 
 export default function Sidebar() {
+  const { dispatch } = useFormContext();
+
+  const handleAddField = (type: FieldType) => {
+    dispatch({ type: ActionTypes.ADD_FIELD, payload: type });
+  };
+
   return (
     <div className="w-64 bg-white border-r border-gray-200 h-full flex flex-col">
       <div className="p-4 border-b border-gray-200">
@@ -11,7 +19,7 @@ export default function Sidebar() {
         {FIELD_TYPES.map((item) => (
           <button
             key={item.type}
-            // onClick={() => handleAddField(item.type)}
+            onClick={() => handleAddField(item.type)}
             className="w-full flex items-center p-3 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition-colors hover:cursor-pointer"
           >
             <span className="mr-3 text-gray-400">

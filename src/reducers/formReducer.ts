@@ -1,5 +1,6 @@
 import { ActionTypes } from "../../constants";
-import type { FormAction, FormState } from "../../types";
+import type { FormAction, FormField, FormState } from "../../types";
+import { generateRandomId } from "../utils/generateRandomId";
 import { createNewForm } from "./helpers";
 
 export const INITIAL_STATE: FormState = {
@@ -10,6 +11,7 @@ export const INITIAL_STATE: FormState = {
 
 export const formReducer = (state: FormState, action: FormAction) => {
   switch (action.type) {
+    // Create New Form
     case ActionTypes.CREATE_NEW_FORM: {
       const newForm = action.payload || createNewForm();
 
@@ -19,6 +21,7 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
     }
 
+    // Save Form
     case ActionTypes.SAVE_FORM: {
       if (!state.activeForm) return state;
       const exists = state.savedForms.find((f) => f.id === state.activeForm?.id);
@@ -32,18 +35,21 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
     }
 
+    // Clear Form
     case ActionTypes.CLEAR_FORM:
       return {
         ...state,
         activeForm: null,
       };
 
+    // Delete Form
     case ActionTypes.DELETE_FORM:
       return {
         ...state,
         savedForms: state.savedForms.filter((form) => form.id !== action.payload),
       };
 
+    // Load Form
     case ActionTypes.LOAD_FORM: {
       const form = state.savedForms.find((f) => f.id === action.payload);
 
@@ -53,6 +59,7 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
     }
 
+    // Update Form Meta
     case ActionTypes.UPDATE_FORM_META:
       if (!state.activeForm) return state;
 
@@ -62,6 +69,35 @@ export const formReducer = (state: FormState, action: FormAction) => {
           ...state.activeForm,
           ...action.payload,
           updatedAt: Date.now(),
+        },
+      };
+
+    // Add Field
+    case ActionTypes.ADD_FIELD:
+      if (!state.activeForm) return state;
+
+      const newField: FormField = {
+        id: generateRandomId(),
+        type: action.payload,
+        label: `New ${action.payload} field`,
+        placeholder: `Enter your ${action.payload}`,
+        required: false,
+        defaultValue: "",
+        options:
+          action.payload === "select" || action.payload === "checkbox" || action.payload === "radio"
+            ? [
+                { label: "Option 1", value: "Option 1" },
+                { label: "Option 2", value: "Option 2" },
+                { label: "Option 3", value: "Option 3" },
+              ]
+            : [],
+      };
+
+      return {
+        ...state,
+        activeForm: {
+          ...state.activeForm,
+          fields: [...state.activeForm.fields, newField],
         },
       };
 

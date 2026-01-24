@@ -49,58 +49,61 @@ export default function Canvas() {
           </div>
 
           {/* Form Fields */}
-          {fields.length > 0 ? (
-            <div className="p-6 space-y-4">
-              <div
-                className={`
+          <div className="p-6 space-y-4">
+            {fields.length > 0 ? (
+              fields.map((field) => (
+                <div
+                  key={field.id}
+                  className={`
                   relative group border rounded-md p-4 cursor-pointer transition-all
                   border-gray-200 hover:border-blue-300 bg-white
                 `}
-              >
-                {/* Drag Handle */}
-                <div className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 cursor-grab opacity-100 p-2 hover:text-gray-600">
-                  <Icons.GripVertical className="w-5 h-5" />
-                </div>
+                >
+                  {/* Drag Handle */}
+                  <div className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 cursor-grab opacity-100 p-2 hover:text-gray-600">
+                    <Icons.GripVertical className="w-5 h-5" />
+                  </div>
 
-                <div className="pl-10">
-                  <div>
-                    {/* Preview of the field in Editor Mode (Simplified) */}
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {fields[0].label}
-                      {fields[0].required && <span className="text-red-500">*</span>}
-                    </label>
-
-                    {/* Mock Inputs based on type */}
-
+                  <div className="pl-10">
                     <div>
-                      <input
-                        type="text"
-                        placeholder={fields[0].placeholder}
-                        className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm"
-                        value={fields[0].defaultValue || ""}
-                        readOnly
-                      />
+                      {/* Preview of the field in Editor Mode (Simplified) */}
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {field.label}
+                        {field.required && <span className="text-red-500">*</span>}
+                      </label>
+
+                      {/* Mock Inputs based on type */}
+
+                      <div>
+                        <input
+                          type="text"
+                          placeholder={field.placeholder}
+                          className="h-9 w-full bg-gray-50 border border-gray-200 rounded px-3 flex items-center text-gray-400 text-sm"
+                          value={field.defaultValue || ""}
+                          readOnly
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="absolute top-2 right-2 flex space-x-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                    className="p-1 text-red-400 hover:bg-red-50 rounded hover:text-red-600 hover:cursor-pointer"
-                  >
-                    <Icons.Trash className="w-4 h-4" />
-                  </button>
+                  <div className="absolute top-2 right-2 flex space-x-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="p-1 text-red-400 hover:bg-red-50 rounded hover:text-red-600 hover:cursor-pointer"
+                    >
+                      <Icons.Trash className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="p-6">
+                <p className="text-gray-500">No fields added yet.</p>
               </div>
-            </div>
-          ) : (
-            <div className="p-6">
-              <p className="text-gray-500">No fields added yet.</p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
