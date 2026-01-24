@@ -12,7 +12,7 @@ export default function Sidebar() {
           <button
             key={item.type}
             // onClick={() => handleAddField(item.type)}
-            className="w-full flex items-center p-3 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition-colors"
+            className="w-full flex items-center p-3 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition-colors hover:cursor-pointer"
           >
             <span className="mr-3 text-gray-400">
               {/* Fallback to simple circle if icon logic is complex, but here we just use label */}

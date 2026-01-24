@@ -89,9 +89,9 @@ export default function Canvas() {
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  className="p-1 text-red-400 hover:bg-red-50 rounded hover:text-red-600"
+                  className="p-1 text-red-400 hover:bg-red-50 rounded hover:text-red-600 hover:cursor-pointer"
                 >
-                  <Icons.Trash className="w-4 h-4 cursor-pointer" />
+                  <Icons.Trash className="w-4 h-4" />
                 </button>
               </div>
             </div>

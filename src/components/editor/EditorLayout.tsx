@@ -1,12 +1,12 @@
+import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
+import { useFormContext } from "../../hooks/useFormContext";
 import { Icons } from "../ui/Icons";
-import { useContext, useState } from "react";
-import { FormBuilderContext } from "../../context/FormBuilderContext";
 
 type Tab = "builder" | "preview" | "code";
 
 export default function EditorLayout() {
-  const { state } = useContext(FormBuilderContext);
+  const { state } = useFormContext();
   const [activeTab, setActiveTab] = useState<Tab>("builder");
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export default function EditorLayout() {
         <div className="flex items-center space-x-4">
           <Link to="/">
             <button
-              className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors hover:cursor-pointer"
               title="Back to Dashboard"
             >
               <Icons.ArrowLeft className="w-5 h-5" />
@@ -27,7 +27,7 @@ export default function EditorLayout() {
             <div className="bg-blue-600 p-1.5 rounded-lg">
               <Icons.Code className="text-white w-4 h-4" />
             </div>
-            <span className="text-lg font-semibold text-gray-800 truncate max-w-[200px]">
+            <span className="text-lg font-semibold text-gray-800 truncate max-w-50">
               "Untitled Form"
             </span>
           </div>
@@ -76,7 +76,9 @@ export default function EditorLayout() {
         </div>
 
         <div className="flex items-center space-x-2">
-          <button className="text-sm text-red-500 hover:text-red-700 px-3">Clear Form</button>
+          <button className="text-sm text-red-500 hover:text-red-700 px-3 hover:cursor-pointer">
+            Clear Form
+          </button>
         </div>
       </header>
 

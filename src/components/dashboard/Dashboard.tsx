@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { ActionTypes } from "../../../constants";
 import { useFormContext } from "../../hooks/useFormContext";
-import { createNewForm } from "../../reducers/helpers";
 import { Icons } from "../ui/Icons";
+import { createNewForm } from "../../reducers/helpers";
 
 export const Dashboard = () => {
   const { state, dispatch } = useFormContext();
@@ -46,10 +46,10 @@ export const Dashboard = () => {
             <h3 className="text-lg font-medium text-gray-900 mb-2">No forms created yet</h3>
             <p className="text-gray-500 mb-6">Start building your first form to see it here.</p>
             <button
-              onClick={createNewForm}
-              className="text-blue-600 font-medium hover:text-blue-800"
+              onClick={createForm}
+              className="text-blue-600 font-medium hover:text-blue-800 hover:cursor-pointer"
             >
-              <Link to="/editor">Create a form &rarr;</Link>
+              Create a form &rarr;
             </button>
           </div>
         ) : (
@@ -81,12 +81,12 @@ export const Dashboard = () => {
                 <div className="border-t border-gray-100 p-4 bg-gray-50 rounded-b-lg flex justify-end space-x-3">
                   <button
                     onClick={() => deleteForm(form.id)}
-                    className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                    className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors hover:cursor-pointer"
                     title="Delete"
                   >
                     <Icons.Trash className="w-4 h-4" />
                   </button>
-                  <button className="flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 transition-all">
+                  <button className="flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-50 hover:text-blue-600 hover:border-blue-300 transition-all hover:cursor-pointer">
                     <Icons.Edit className="w-4 h-4 mr-2" />
                     Edit
                   </button>

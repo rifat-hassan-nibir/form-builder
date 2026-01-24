@@ -70,7 +70,7 @@ export default function PropertiesPanel() {
       </div>
 
       <div className="p-4 border-t border-gray-200">
-        <button className="w-full py-2 px-4 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors flex items-center justify-center cursor-pointer">
+        <button className="w-full py-2 px-4 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors flex items-center justify-center hover:cursor-pointer">
           <Icons.Trash className="w-4 h-4 mr-2" /> Delete Field
         </button>
       </div>
