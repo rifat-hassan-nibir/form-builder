@@ -55,5 +55,4 @@ export interface FormState {
   activeForm: FormSchema | null;
   selectedFieldId: string | null;
   savedForms: FormSchema[];
-  activeTab: "builder" | "preview" | "code";
 }

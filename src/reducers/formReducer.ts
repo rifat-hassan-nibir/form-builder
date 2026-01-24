@@ -6,7 +6,6 @@ export const INITIAL_STATE: FormState = {
   activeForm: null,
   selectedFieldId: null,
   savedForms: [],
-  activeTab: "builder",
 };
 
 export const formReducer = (state: FormState, action: FormAction) => {
