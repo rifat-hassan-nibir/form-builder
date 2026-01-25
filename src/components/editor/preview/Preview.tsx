@@ -141,15 +141,6 @@ export default function Preview() {
           Submit Form
         </button>
       </form>
-
-      <div className="mt-8 pt-6 border-t border-gray-100">
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          Form Data State (Live)
-        </h3>
-        <pre className="bg-gray-800 text-gray-100 p-4 rounded text-xs overflow-auto">
-          {/* {JSON.stringify(formData, null, 2)} */}
-        </pre>
-      </div>
     </div>
   );
 }
