@@ -29,6 +29,7 @@ export default function Canvas() {
 
   const handleDeleteField = (fieldId: string) => {
     dispatch({ type: "DELETE_FIELD", payload: fieldId });
+    dispatch({ type: "SELECT_FIELD", payload: null });
   };
 
   return (
