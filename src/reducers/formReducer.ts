@@ -2,11 +2,12 @@ import { ActionTypes } from "../../constants";
 import type { FormAction, FormField, FormState } from "../../types";
 import { generateRandomId } from "../utils/generateRandomId";
 import { createNewForm } from "./helpers";
+import { loadSavedForms, saveFormsToLocalStorage } from "./helpers";
 
 export const INITIAL_STATE: FormState = {
   activeForm: null,
   selectedField: null,
-  savedForms: [],
+  savedForms: loadSavedForms(),
 };
 
 export const formReducer = (state: FormState, action: FormAction) => {
@@ -24,10 +25,13 @@ export const formReducer = (state: FormState, action: FormAction) => {
     // Save Form
     case ActionTypes.SAVE_FORM: {
       if (!state.activeForm) return state;
+
       const exists = state.savedForms.find((f) => f.id === state.activeForm?.id);
       const updatedSavedForms = exists
         ? state.savedForms.map((f) => (f.id === state.activeForm?.id ? state.activeForm! : f))
         : [...state.savedForms, state.activeForm];
+
+      saveFormsToLocalStorage(updatedSavedForms);
 
       return {
         ...state,
@@ -43,11 +47,15 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
 
     // Delete Form
-    case ActionTypes.DELETE_FORM:
+    case ActionTypes.DELETE_FORM: {
+      const updatedSavedForms = state.savedForms.filter((form) => form.id !== action.payload);
+      saveFormsToLocalStorage(updatedSavedForms);
+
       return {
         ...state,
-        savedForms: state.savedForms.filter((form) => form.id !== action.payload),
+        savedForms: updatedSavedForms,
       };
+    }
 
     // Load Form
     case ActionTypes.LOAD_FORM: {

@@ -34,3 +34,6 @@ export const ActionTypes = {
   SET_ACTIVE_TAB: "SET_ACTIVE_TAB",
   TOGGLE_PROPERTIES_PANEL: "TOGGLE_PROPERTIES_PANEL",
 } as const;
+
+// Storage Key
+export const STORAGE_KEY = "form-builder-saved-forms";
