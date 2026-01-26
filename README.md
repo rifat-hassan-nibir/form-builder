@@ -70,10 +70,6 @@ A modern, intuitive, and feature-rich Form Builder application built with **Reac
 - `src/reducers`: Logic for form and field manipulations.
 - `src/utils`: Helper functions for persistence and formatting.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 Built with ❤️ by [Rifat Hassan Nibir](https://github.com/rifat-hassan-nibir)
