@@ -101,12 +101,6 @@ export default function EditorLayout() {
 
         <div className="flex items-center space-x-3">
           <button
-            onClick={() => dispatch({ type: ActionTypes.CLEAR_FORM })}
-            className="text-sm text-gray-500 hover:text-red-500 px-3 hover:cursor-pointer transition-colors"
-          >
-            Clear Form
-          </button>
-          <button
             onClick={handleSave}
             disabled={saveStatus !== "idle"}
             className={`flex items-center px-4 py-2 text-white text-sm font-medium rounded-lg transition-all shadow-sm hover:cursor-pointer min-w-32 justify-center ${

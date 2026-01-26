@@ -39,7 +39,6 @@ export type FormAction =
   | { type: "LOAD_FORM"; payload: string } // form id
   | { type: "SAVE_FORM" }
   | { type: "DELETE_FORM"; payload: string } // form id
-  | { type: "CLEAR_FORM" }
   | { type: "ADD_FIELD"; payload: FieldType }
   | { type: "UPDATE_FIELD"; payload: { id: string; updates: Partial<FormField> } }
   | { type: "DELETE_FIELD"; payload: string } // field id
