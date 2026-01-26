@@ -39,6 +39,13 @@ export const formReducer = (state: FormState, action: FormAction) => {
       };
     }
 
+    // Clear Form
+    case ActionTypes.CLEAR_FORM:
+      return {
+        ...state,
+        activeForm: null,
+      };
+
     // Delete Form
     case ActionTypes.DELETE_FORM: {
       const updatedSavedForms = state.savedForms.filter((form) => form.id !== action.payload);
