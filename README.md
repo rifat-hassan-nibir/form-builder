@@ -5,6 +5,8 @@ A modern, intuitive, and feature-rich Form Builder application built with **Reac
 ![Form Builder Preview](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 
+Live Link: https://form-builder-nibir.vercel.app
+
 ## 🚀 Features
 
 - **Dynamic Form Creation**: Add various field types like text inputs, emails, passwords, numbers, text areas, dropdowns, checkboxes, radios, and date pickers.
